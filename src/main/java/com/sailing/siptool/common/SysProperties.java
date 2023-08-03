@@ -127,6 +127,7 @@ public class SysProperties {
     }
 
     //----------业务参数-start-------------------
+    private int httpPort = 8081;
     private String serverIp;
     private int serverPort;
     private String clientIp;
@@ -137,5 +138,7 @@ public class SysProperties {
     private String streamPortRange;
     private String flowSize;
     private Integer transTime;
+    private Integer scheduleCheckSum;
+    private Integer scheduleCheckInterval;
 
 }

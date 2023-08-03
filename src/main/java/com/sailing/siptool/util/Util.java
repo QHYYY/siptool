@@ -56,6 +56,18 @@ public class Util {
         throw  new RuntimeException("SDP not contain port > [line.toLowerCase().contains(\"m=video\").split(\" \")[i].matches(\"^[1-9]\\\\d*$\") ]");
     }
 
+    public static String getCallId(String data) {
+        return data.split("Call-ID: ")[1].split("\r\n")[0];
+    }
+
+    public static String getSetUp(String data) {
+        if (data.contains("setup:passive")) {
+            return "active";
+        } else {
+            return "passive";
+        }
+    }
+
     public static List<String> readLocalFile(String filepath) throws IOException {
         List<String> list = new ArrayList<>();
         BufferedReader br = null;

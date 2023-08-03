@@ -4,9 +4,9 @@ import com.sailing.siptool.common.Constant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.BindException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.*;
 import java.util.concurrent.ArrayBlockingQueue;
 
 /**
@@ -23,6 +23,33 @@ public class SipReceive implements Runnable {
     public SipReceive() {
         if (sock == null) {
             initPortMonitor();
+        }
+    }
+
+    public static void main(String[] args) throws IOException {
+        DatagramSocket socket = new DatagramSocket(12345);
+        String rawData = "REGISTER sip:15020000002000000002@172.16.100.20:9991 SIP/2.0\r\n" +
+                "Via: SIP/2.0/UDP 172.27.22.1:5061;branch=z9hG4bK6672557761725577ee725577f\r\n" +
+                "Call-ID: 0e3bffa6093bffa6863bffa6953bffa68b3b@172.27.22.1\r\n" +
+                "From: <sip:50011200012000000001@172.27.22.1:5061>;tag=1680a8ec1180a8ec9e80a8ec8d80a8ec\r\n" +
+                "To: <sip:50011200012000000001@172.27.22.1>\r\n" +
+                "CSeq: 29389938 REGISTER\r\n" +
+                "Contact: <sip:50011200012000000001@172.27.22.1:5061>\r\n" +
+                "OutUserInfo: DomainId=5001120001;UserName=15020000002000000002u;UserPri=10\r\n" +
+                "Max-Forwards: 70\r\n" +
+                "Expires: 3600\r\n" +
+                "User-Agent: IMOS/V3\r\n" +
+                "RegMode: PLAT;Describe=H3C-VM9500;Register;DevVer=Plat1.0\r\n" +
+                "Content-Length: 0\r\n\r\n";
+        byte[] dataBytes = rawData.getBytes
+                ("gb2312");
+        DatagramPacket datagramPacket = new DatagramPacket(dataBytes,
+                dataBytes.length,
+                InetAddress.getByName("172.20.54.61"),
+                5060);
+        for (int i = 0;i< 8000;i++) {
+            socket.send(datagramPacket);
+            System.out.println(i);
         }
     }
 
